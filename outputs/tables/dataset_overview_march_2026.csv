@@ -1,0 +1,9 @@
+﻿item,value
+dataset_name,NYC TLC Yellow Taxi Trip Records
+source,NYC Taxi and Limousine Commission
+source_file,yellow_tripdata_2026-03.parquet
+analysis_period,2026-03-01 to 2026-03-31
+filtering_variable,tpep_pickup_datetime
+number_of_records,3952432
+number_of_columns,20
+exact_duplicate_rows,0

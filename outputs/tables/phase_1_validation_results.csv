@@ -1,0 +1,11 @@
+check,value
+expected_start_date,2026-03-01 00:00:00
+expected_end_date_exclusive,2026-04-01 00:00:00
+observed_min_pickup,2026-03-01 00:00:00
+observed_max_pickup,2026-03-31 23:59:59
+rows_in_march,3952432
+rows_outside_march,0
+daily_series_observations,31
+daily_series_missing_values,0
+daily_series_total_trips,3952432
+filtered_dataframe_total_trips,3952432

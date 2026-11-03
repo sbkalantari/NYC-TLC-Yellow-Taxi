@@ -1,0 +1,9 @@
+topic,finding
+Dataset,"The March 2026 dataset contains 3,952,432 trips."
+Data Quality,0 exact duplicate rows were identified in the filtered dataset.
+Trip Characteristics,Median trip distance is 1.82 miles.
+Trip Characteristics,Median trip duration is 13.28 minutes.
+Geography,"The highest-volume pickup zone is Upper East Side South (Manhattan), with 174,403 trips."
+Geography,"The most frequent observed OD pair is Upper East Side South to Upper East Side North, with 25,028 trips."
+Forecasting,"The lowest MAE among the evaluated baseline models was obtained by Naive, with MAE=9304.57 and RMSE=11702.93."
+Limitations,Forecast evaluation uses only the final seven days of one month; results should be treated as preliminary.

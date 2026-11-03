@@ -1,0 +1,9 @@
+﻿check,record_count,percent_of_trips
+negative_distance,0,0.0
+zero_distance,121209,3.067
+negative_fare,20724,0.524
+zero_fare,2995,0.076
+negative_tip,40,0.001
+negative_tolls,1582,0.04
+negative_total_amount,21305,0.539
+zero_total_amount,584,0.015

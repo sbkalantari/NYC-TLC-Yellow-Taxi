@@ -1,0 +1,7 @@
+﻿issue,decision,reason
+Missing timestamps,Report and investigate,Timestamps are required for temporal analysis
+Exact duplicate rows,Do not remove automatically,No duplicates were observed in the previous analysis
+Negative trip duration,Flag for investigation,May indicate inconsistent timestamps
+Zero duration or distance,Retain and investigate,Not necessarily invalid without further evidence
+Negative fare or total amount,Retain and investigate,Could represent adjustments or other payment-related cases
+Missing values in five columns,Do not impute automatically,Investigate the shared missingness pattern first
