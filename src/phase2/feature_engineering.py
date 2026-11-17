@@ -115,6 +115,49 @@ df["payment_type_zero"] = (
 ).astype("int8")
 
 # --------------------------------------------------
+# 2.1 Missingness Profile Validation
+# --------------------------------------------------
+
+missing_profile_count = int(df["missing_profile"].sum())
+
+payment_type_zero_count = int(df["payment_type_zero"].sum())
+
+mismatch_count = int(
+    (df["missing_profile"] != df["payment_type_zero"]).sum()
+)
+
+validation_passed = mismatch_count == 0
+
+validation_summary = pd.DataFrame([{
+    "total_records": len(df),
+    "missing_profile_count": missing_profile_count,
+    "payment_type_zero_count": payment_type_zero_count,
+    "mismatch_count": mismatch_count,
+    "validation_passed": validation_passed,
+}])
+
+VALIDATION_FILE = OUTPUT_DIR / "missingness_validation.csv"
+
+validation_summary.to_csv(
+    VALIDATION_FILE,
+    index=False,
+)
+
+print("\nMISSINGNESS VALIDATION")
+print(validation_summary.to_string(index=False))
+
+print(f"Validation report saved to: {VALIDATION_FILE}")
+
+if not validation_passed:
+    raise ValueError(
+        "Missingness validation failed! "
+        f"Found {mismatch_count:,} mismatched records."
+    )
+
+print("Missingness validation passed.")
+
+
+# --------------------------------------------------
 # 3. Data quality flags
 # --------------------------------------------------
 
