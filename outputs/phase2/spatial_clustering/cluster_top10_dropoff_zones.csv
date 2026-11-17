@@ -1,0 +1,21 @@
+cluster,DOLocationID,trip_count,LocationID,Borough,Zone,service_zone,cluster_total,zone_share_pct
+0,236,5372,236,Manhattan,Upper East Side North,Yellow Zone,101401,5.297778128420824
+0,237,5240,237,Manhattan,Upper East Side South,Yellow Zone,101401,5.167601897417185
+0,161,4078,161,Manhattan,Midtown Center,Yellow Zone,101401,4.021656591157878
+0,170,3473,170,Manhattan,Murray Hill,Yellow Zone,101401,3.4250155323911993
+0,142,3253,142,Manhattan,Lincoln Square East,Yellow Zone,101401,3.208055147385134
+0,239,3151,239,Manhattan,Upper West Side South,Yellow Zone,101401,3.107464423427777
+0,162,3119,162,Manhattan,Midtown East,Yellow Zone,101401,3.0759065492450763
+0,141,3071,141,Manhattan,Lenox Hill West,Yellow Zone,101401,3.028569737971026
+0,68,2853,68,Manhattan,East Chelsea,Yellow Zone,101401,2.8135817201013795
+0,230,2822,230,Manhattan,Times Sq/Theatre District,Yellow Zone,101401,2.7830100294868885
+1,138,1270,138,Queens,LaGuardia Airport,Airports,48599,2.6132224942900057
+1,236,1081,236,Manhattan,Upper East Side North,Yellow Zone,48599,2.2243256034074776
+1,230,1061,230,Manhattan,Times Sq/Theatre District,Yellow Zone,48599,2.183172493261178
+1,132,1044,132,Queens,JFK Airport,Airports,48599,2.148192349636824
+1,231,941,231,Manhattan,TriBeCa/Civic Center,Yellow Zone,48599,1.9362538323833824
+1,68,884,68,Manhattan,East Chelsea,Yellow Zone,48599,1.8189674684664294
+1,79,858,79,Manhattan,East Village,Yellow Zone,48599,1.7654684252762403
+1,161,846,161,Manhattan,Midtown Center,Yellow Zone,48599,1.7407765591884607
+1,263,780,263,Manhattan,Yorkville West,Yellow Zone,48599,1.604971295705673
+1,239,774,239,Manhattan,Upper West Side South,Yellow Zone,48599,1.5926253626617832
