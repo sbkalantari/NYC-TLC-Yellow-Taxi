@@ -87,12 +87,30 @@ print(f"Sample size: {len(sample):,}")
 # 3. Prepare model features
 # --------------------------------------------------
 
+
+# Average speed in miles per hour
+sample["avg_speed_mph"] = np.where(
+    sample["duration_min"] > 0,
+    sample["trip_distance"] / (sample["duration_min"] / 60.0),
+    np.nan,
+)
+
+# Cyclical encoding of pickup hour
+sample["pickup_hour_sin"] = np.sin(
+    2 * np.pi * sample["pickup_hour"] / 24.0
+)
+
+sample["pickup_hour_cos"] = np.cos(
+    2 * np.pi * sample["pickup_hour"] / 24.0
+)
+
 continuous_features = [
     "duration_min",
     "trip_distance",
     "fare_amount",
     "total_amount",
     "tip_amount",
+    "avg_speed_mph",
 ]
 
 for col in continuous_features:
@@ -104,6 +122,9 @@ features = [
     "log_fare_amount",
     "log_total_amount",
     "log_tip_amount",
+    "log_avg_speed_mph",
+    "pickup_hour_sin",
+    "pickup_hour_cos",
 ]
 
 X = sample[features].replace(
@@ -172,6 +193,7 @@ profile = sample.groupby("is_anomaly").agg(
     avg_fare=("fare_amount", "mean"),
     avg_total=("total_amount", "mean"),
     avg_tip=("tip_amount", "mean"),
+    avg_speed_mph=("avg_speed_mph", "mean"),
 ).reset_index()
 
 profile["group"] = profile["is_anomaly"].map({
@@ -261,6 +283,51 @@ plt.savefig(
     dpi=150,
 )
 
+plt.close()
+# --------------------------------------------------
+# 10. Hourly anomaly analysis
+# --------------------------------------------------
+
+hourly_summary = (
+    sample.groupby("pickup_hour")
+    .agg(
+        total_trips=("is_anomaly", "size"),
+        anomalous_trips=("is_anomaly", "sum"),
+    )
+    .reindex(range(24), fill_value=0)
+    .rename_axis("pickup_hour")
+    .reset_index()
+)
+
+hourly_summary["anomaly_rate_pct"] = (
+    100 * hourly_summary["anomalous_trips"]
+    / hourly_summary["total_trips"].replace(0, np.nan)
+)
+
+hourly_summary.to_csv(
+    OUTPUT_DIR / "anomaly_hourly_summary.csv",
+    index=False,
+)
+
+print("\nHOURLY ANOMALY SUMMARY")
+print(hourly_summary.to_string(index=False))
+
+plt.figure(figsize=(10, 5))
+plt.plot(
+    hourly_summary["pickup_hour"],
+    hourly_summary["anomaly_rate_pct"],
+    marker="o",
+)
+plt.xticks(range(24))
+plt.xlabel("Pickup Hour")
+plt.ylabel("Anomalous Trips (%)")
+plt.title("Anomaly Rate by Pickup Hour")
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig(
+    FIGURES_DIR / "phase2_anomaly_rate_by_hour.png",
+    dpi=150,
+)
 plt.close()
 
 # --------------------------------------------------
