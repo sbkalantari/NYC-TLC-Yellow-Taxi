@@ -1,0 +1,21 @@
+cluster,PULocationID,trip_count,LocationID,Borough,Zone,service_zone,cluster_total,zone_share_pct
+0,132,5540,132,Queens,JFK Airport,Airports,53513,10.352624595892587
+0,138,3582,138,Queens,LaGuardia Airport,Airports,53513,6.693700596116831
+0,161,1667,161,Manhattan,Midtown Center,Yellow Zone,53513,3.115130902771289
+0,186,1308,186,Manhattan,Penn Station/Madison Sq West,Yellow Zone,53513,2.444265879319044
+0,230,1306,230,Manhattan,Times Sq/Theatre District,Yellow Zone,53513,2.4405284697176386
+0,79,1260,79,Manhattan,East Village,Yellow Zone,53513,2.3545680488853176
+0,68,1239,68,Manhattan,East Chelsea,Yellow Zone,53513,2.3153252480705624
+0,236,1190,236,Manhattan,Upper East Side North,Yellow Zone,53513,2.2237587128361334
+0,237,1081,237,Manhattan,Upper East Side South,Yellow Zone,53513,2.0200698895595464
+0,162,1047,162,Manhattan,Midtown East,Yellow Zone,53513,1.9565339263356567
+1,237,5531,237,Manhattan,Upper East Side South,Yellow Zone,96487,5.7323784551286705
+1,236,4784,236,Manhattan,Upper East Side North,Yellow Zone,96487,4.958180894835574
+1,161,4745,161,Manhattan,Midtown Center,Yellow Zone,96487,4.917760941888544
+1,162,3501,162,Manhattan,Midtown East,Yellow Zone,96487,3.6284680837833077
+1,142,3366,142,Manhattan,Lincoln Square East,Yellow Zone,96487,3.4885528620435915
+1,186,3316,186,Manhattan,Penn Station/Madison Sq West,Yellow Zone,96487,3.4367324095474
+1,230,3133,230,Manhattan,Times Sq/Theatre District,Yellow Zone,96487,3.2470695534113405
+1,239,3002,239,Manhattan,Upper West Side South,Yellow Zone,96487,3.1112999678713193
+1,234,2947,234,Manhattan,Union Sq,Yellow Zone,96487,3.0542974701255092
+1,163,2941,163,Manhattan,Midtown North,Yellow Zone,96487,3.0480790158259663

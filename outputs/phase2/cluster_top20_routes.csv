@@ -1,0 +1,41 @@
+cluster,PULocationID,DOLocationID,trip_count,pickup_zone,pickup_borough,dropoff_zone,dropoff_borough,cluster_total,route_share_pct
+0,132,265,272,JFK Airport,Queens,Outside of NYC,,53513,0.5082877057911162
+0,138,230,235,LaGuardia Airport,Queens,Times Sq/Theatre District,Manhattan,53513,0.43914562816511876
+0,132,230,201,JFK Airport,Queens,Times Sq/Theatre District,Manhattan,53513,0.3756096649412292
+0,132,93,167,JFK Airport,Queens,Flushing Meadows-Corona Park,Queens,53513,0.3120737017173397
+0,138,161,133,LaGuardia Airport,Queens,Midtown Center,Manhattan,53513,0.24853773849345018
+0,230,138,122,Times Sq/Theatre District,Manhattan,LaGuardia Airport,Queens,53513,0.22798198568572123
+0,132,164,121,JFK Airport,Queens,Midtown South,Manhattan,53513,0.22611328088501859
+0,132,163,115,JFK Airport,Queens,Midtown North,Manhattan,53513,0.2149010520808028
+0,138,162,109,LaGuardia Airport,Queens,Midtown East,Manhattan,53513,0.203688823276587
+0,132,48,108,JFK Airport,Queens,Clinton East,Manhattan,53513,0.20182011847588435
+0,132,170,108,JFK Airport,Queens,Murray Hill,Manhattan,53513,0.20182011847588435
+0,138,164,107,LaGuardia Airport,Queens,Midtown South,Manhattan,53513,0.19995141367518174
+0,161,138,105,Midtown Center,Manhattan,LaGuardia Airport,Queens,53513,0.19621400407377645
+0,161,231,101,Midtown Center,Manhattan,TriBeCa/Civic Center,Manhattan,53513,0.18873918487096594
+0,132,161,100,JFK Airport,Queens,Midtown Center,Manhattan,53513,0.1868704800702633
+0,138,170,100,LaGuardia Airport,Queens,Murray Hill,Manhattan,53513,0.1868704800702633
+0,138,163,99,LaGuardia Airport,Queens,Midtown North,Manhattan,53513,0.18500177526956066
+0,138,236,98,LaGuardia Airport,Queens,Upper East Side North,Manhattan,53513,0.18313307046885804
+0,132,162,91,JFK Airport,Queens,Midtown East,Manhattan,53513,0.1700521368639396
+0,132,239,91,JFK Airport,Queens,Upper West Side South,Manhattan,53513,0.1700521368639396
+1,237,236,994,Upper East Side South,Manhattan,Upper East Side North,Manhattan,96487,1.030190595624281
+1,236,237,811,Upper East Side North,Manhattan,Upper East Side South,Manhattan,96487,0.8405277394882212
+1,237,237,638,Upper East Side South,Manhattan,Upper East Side South,Manhattan,96487,0.6612289738513997
+1,236,236,560,Upper East Side North,Manhattan,Upper East Side North,Manhattan,96487,0.5803890679573414
+1,161,237,430,Midtown Center,Manhattan,Upper East Side South,Manhattan,96487,0.44565589146724427
+1,237,161,399,Upper East Side South,Manhattan,Midtown Center,Manhattan,96487,0.41352721091960576
+1,161,236,376,Midtown Center,Manhattan,Upper East Side North,Manhattan,96487,0.3896898027713578
+1,239,238,346,Upper West Side South,Manhattan,Upper West Side North,Manhattan,96487,0.3585975312736431
+1,236,141,319,Upper East Side North,Manhattan,Lenox Hill West,Manhattan,96487,0.33061448692569984
+1,239,142,318,Upper West Side South,Manhattan,Lincoln Square East,Manhattan,96487,0.32957807787577603
+1,237,162,316,Upper East Side South,Manhattan,Midtown East,Manhattan,96487,0.32750525977592837
+1,141,236,315,Lenox Hill West,Manhattan,Upper East Side North,Manhattan,96487,0.32646885072600457
+1,142,239,310,Lincoln Square East,Manhattan,Upper West Side South,Manhattan,96487,0.32128680547638544
+1,140,236,309,Lenox Hill East,Manhattan,Upper East Side North,Manhattan,96487,0.3202503964264616
+1,238,239,307,Upper West Side North,Manhattan,Upper West Side South,Manhattan,96487,0.318177578326614
+1,237,141,292,Upper East Side South,Manhattan,Lenox Hill West,Manhattan,96487,0.3026314425777566
+1,236,239,291,Upper East Side North,Manhattan,Upper West Side South,Manhattan,96487,0.3015950335278328
+1,141,237,280,Lenox Hill West,Manhattan,Upper East Side South,Manhattan,96487,0.2901945339786707
+1,236,161,272,Upper East Side North,Manhattan,Midtown Center,Manhattan,96487,0.2819032615792801
+1,239,236,270,Upper West Side South,Manhattan,Upper East Side North,Manhattan,96487,0.2798304434794325
