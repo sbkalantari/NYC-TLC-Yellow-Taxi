@@ -26,7 +26,7 @@ The project is organized into two phases.
 
 \- Temporal demand analysis by hour, weekday, and date
 
-\- Geographic pickup and dropoff analysis
+\- Geographic pickup and drop-off analysis
 
 \- Origin-destination analysis
 
@@ -44,13 +44,15 @@ The project is organized into two phases.
 
 \- Temporal and cyclical feature extraction
 
+\- Missingness profile and payment-type indicators
+
 \- K-Means clustering
 
 \- PCA dimensionality reduction
 
 \- Cluster profiling and spatial analysis
 
-\- Pickup, dropoff, and popular route analysis
+\- Pickup, drop-off, and popular route analysis
 
 \- Clustering stability evaluation
 
@@ -76,11 +78,11 @@ Expected local data paths:
 
 
 
-\- `data/raw/yellow\\\_tripdata\\\_2026-03.parquet`
+\- `data/raw/yellow\_tripdata\_2026-03.parquet`
 
-\- `data/external/taxi\\\_zones.shp`
+\- `data/external/taxi\_zones.shp`
 
-\- `data/external/taxi\\\_zone\\\_lookup.csv`
+\- `data/external/taxi\_zone\_lookup.csv`
 
 
 
@@ -116,9 +118,9 @@ Raw datasets and external geographic files are not included in Git tracking. The
 
 \- scikit-learn
 
-\- PCA
+\- Principal Component Analysis (PCA)
 
-\- K-Means
+\- K-Means clustering
 
 \- Isolation Forest
 
@@ -130,11 +132,9 @@ Raw datasets and external geographic files are not included in Git tracking. The
 
 
 
-\- Phase 1 report: `outputs/reports/phase\\\_1\\\_report.md`
+\- Phase 1 report: `outputs/reports/phase\_1\_report.md`
 
-\- Phase 1 PDF report: `outputs/reports/phase\\\_1\\\_report.pdf`
-
-\- Phase 2 report: `outputs/reports/phase\\\_2\\\_report.md`
+\- Phase 2 report: `outputs/reports/phase\_2\_report.md`
 
 \- Source code: `src/`
 
@@ -142,7 +142,27 @@ Raw datasets and external geographic files are not included in Git tracking. The
 
 \- Figures: `outputs/figures/`
 
-\- Phase 2 tables: `outputs/phase2/`
+\- Phase 2 outputs: `outputs/phase2/`
+
+
+
+\## Phase 2 Results
+
+
+
+\- Feature engineering produced a dataset with 45 columns.
+
+\- The `payment\_type\_zero` and `missing\_profile` indicators each identify 945,748 records; their values match with zero mismatches.
+
+\- PCA retained 6 components to explain approximately 95.79% of the variance.
+
+\- The selected K-Means solution uses 2 clusters, with a Silhouette Score of approximately 0.250.
+
+\- The first two PCA components explain approximately 53.9% of the variance and are used in the 2D cluster visualization.
+
+\- Stability comparisons across random seeds produced Adjusted Rand Index values of approximately 0.98 on common comparison subsets.
+
+\- Isolation Forest identified 3,000 anomalies in a sample of 150,000 trips, corresponding to the configured 2% contamination rate.
 
 
 
@@ -154,11 +174,11 @@ Raw datasets and external geographic files are not included in Git tracking. The
 
 \- Invalid and unusual observations are identified using explicit criteria.
 
-\- Phase 2 clustering and anomaly detection use a random sample of 150,000 eligible trips.
+\- Phase 2 clustering and anomaly detection use samples of 150,000 observations.
 
 \- Clustering results are evaluated using internal validation metrics and sampling stability checks.
 
-\- The selected clustering solution has moderate separation; clusters should not be interpreted as perfectly distinct groups.
+\- The selected clustering solution has limited to moderate separation; clusters should not be interpreted as perfectly distinct groups.
 
 \- Isolation Forest anomalies are statistically unusual observations, not confirmed errors or fraud.
 

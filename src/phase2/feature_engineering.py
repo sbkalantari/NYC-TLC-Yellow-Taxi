@@ -65,7 +65,7 @@ df["duration_min"] = (
 
 df["pickup_hour"] = pickup.dt.hour
 df["pickup_day"] = pickup.dt.day
-df["pickup_dayofweek"] = pickup.dt.dayofweek
+df["pickup_dayofweek"] = pickup.dt.day_of_week
 df["pickup_month"] = pickup.dt.month
 df["pickup_date"] = pickup.dt.date
 
@@ -82,9 +82,17 @@ df["pickup_hour_cos"] = __import__("numpy").cos(
     2 * __import__("numpy").pi * df["pickup_hour"] / 24
 )
 
+
 # --------------------------------------------------
 # 2. Missingness profile
 # --------------------------------------------------
+
+# These five columns were found to be missing together
+# in records where payment_type == 0.
+#
+# We preserve this missingness pattern instead of applying
+# blanket mean/median imputation, because the missing values
+# may represent a distinct record type rather than random gaps.
 
 missing_columns = [
     "passenger_count",
@@ -100,6 +108,11 @@ df["missing_profile"] = (
     .all(axis=1)
     .astype("int8")
 )
+
+# Keep an explicit indicator for the associated payment type.
+df["payment_type_zero"] = (
+    df["payment_type"] == 0
+).astype("int8")
 
 # --------------------------------------------------
 # 3. Data quality flags

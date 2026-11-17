@@ -304,6 +304,53 @@ final_model = KMeans(
 sample["cluster"] = final_model.fit_predict(X_pca)
 
 # --------------------------------------------------
+# 8.1. Two-dimensional PCA visualization
+# --------------------------------------------------
+
+print("Creating 2D PCA cluster visualization...")
+
+# Use a reproducible subset for a clearer and faster plot
+plot_sample = sample.sample(
+    n=min(20_000, len(sample)),
+    random_state=RANDOM_STATE,
+)
+
+plot_positions = sample.index.get_indexer(plot_sample.index)
+
+plt.figure(figsize=(10, 7))
+
+for cluster_id in sorted(sample["cluster"].unique()):
+    mask = plot_sample["cluster"].to_numpy() == cluster_id
+
+    plt.scatter(
+        X_pca[plot_positions[mask], 0],
+        X_pca[plot_positions[mask], 1],
+        s=8,
+        alpha=0.35,
+        label=f"Cluster {cluster_id}",
+    )
+
+plt.xlabel(
+    f"PC1 ({pca_full.explained_variance_ratio_[0] * 100:.1f}% variance)"
+)
+plt.ylabel(
+    f"PC2 ({pca_full.explained_variance_ratio_[1] * 100:.1f}% variance)"
+)
+plt.title("KMeans Clusters in 2D PCA Space")
+plt.legend()
+plt.tight_layout()
+
+plt.savefig(
+    FIGURES_DIR / "phase2_pca_clusters_2d.png",
+    dpi=150,
+)
+
+plt.close()
+
+print("2D PCA visualization saved.")
+
+
+# --------------------------------------------------
 # 9. Cluster interpretation
 # --------------------------------------------------
 

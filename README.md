@@ -1,429 +1,243 @@
 # NYC TLC Yellow Taxi — Phase 1 & Phase 2
 
-پروژه تحلیل داده‌های سفر تاکسی زرد نیویورک (NYC Yellow Taxi) برای مارس ۲۰۲۶. این پروژه شامل ممیزی و تحلیل اکتشافی داده‌ها در فاز اول و مهندسی ویژگی، خوشه‌بندی سفرها و تشخیص ناهنجاری‌ها در فاز دوم است.
+تحلیل داده‌های سفر تاکسی زرد نیویورک (NYC TLC Yellow Taxi) برای ماه مارس ۲۰۲۶، شامل بررسی کیفیت داده، تحلیل اکتشافی، مهندسی ویژگی، خوشه‌بندی سفرها و شناسایی سفرهای غیرعادی.
 
-## ساختار پروژه
+This project analyzes NYC TLC Yellow Taxi trip records for March 2026 through data auditing, exploratory analysis, feature engineering, clustering, and anomaly detection.
+
+## Project Structure
 
 ```text
-.
-├── PROJECT_CARD.md
+NYC-TLC-Yellow-Taxi/
+│
 ├── README.md
+├── PROJECT_CARD.md
 ├── AI_USAGE_FA.md
 ├── requirements.txt
+│
 ├── data/
 │   ├── raw/
-│   │   └── yellow_tripdata_2026-03.parquet
 │   └── external/
-│       ├── taxi_zones.shp
-│       ├── taxi_zone_lookup.csv
-│       └── ...
+│
 ├── notebooks/
+│
 ├── src/
 │   ├── audit_data.py
 │   └── phase2/
 │       ├── feature_engineering.py
 │       ├── clustering.py
 │       └── anomaly_detection.py
+│
 └── outputs/
     ├── figures/
     ├── tables/
     ├── reports/
-    │   ├── phase_1_report.md
-    │   └── phase_2_report.md
     └── phase2/
 ```
 
-## ۱. تهیه داده‌ها
+## Dataset
 
-داده اصلی شامل سفرهای تاکسی زرد نیویورک در مارس ۲۰۲۶ است.
+- **Source:** NYC Taxi & Limousine Commission (TLC)
+- **Dataset:** Yellow Taxi Trip Records
+- **Period:** March 2026
+- **External data:** Taxi zone shapefile and taxi zone lookup table
 
-نام فایل:
+The raw and external datasets are not included in the Git repository.
 
-`yellow_tripdata_2026-03.parquet`
+## Environment Setup
 
-مسیر مورد انتظار:
+Recommended Python version: Python 3.11 or newer.
 
-`data/raw/yellow_tripdata_2026-03.parquet`
-
-برای تحلیل جغرافیایی، فایل shapefile مناطق تاکسی نیویورک و فایل lookup نیز استفاده می‌شوند:
-
-- `data/external/taxi_zones.shp`
-- فایل‌های همراه shapefile مانند `.shx`، `.dbf` و `.prj`
-- `data/external/taxi_zone_lookup.csv`
-
-اگر فایل‌های داده در نسخه دریافتی پروژه موجود نباشند، باید آن‌ها را جداگانه از منابع رسمی NYC TLC تهیه کرد.
-
-## ۲. نصب وابستگی‌ها
-
-Python 3.11 یا جدیدتر توصیه می‌شود.
+Create and activate a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-فعال‌سازی محیط مجازی در ویندوز:
+Windows:
 
-```cmd
+```bash
 .venv\Scripts\activate
 ```
 
-نصب کتابخانه‌ها:
+Install dependencies:
 
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-## ۳. فاز اول: ممیزی و تحلیل اکتشافی داده‌ها
+## Phase 1 — Data Audit and Exploratory Analysis
 
-در فاز اول، ساختار داده، مقادیر گمشده، رکوردهای تکراری و کیفیت داده بررسی شده‌اند. همچنین تحلیل‌های زمانی، جغرافیایی و پیش‌بینی تقاضا انجام شده‌اند.
+Phase 1 focuses on understanding the dataset and assessing its quality.
 
-اجرای ممیزی داده:
+Main activities:
+
+- Data loading and initial inspection
+- Schema and data type checks
+- Missing-value analysis
+- Duplicate and invalid-record checks
+- Descriptive statistics
+- Temporal demand analysis
+- Geographic and route analysis
+- Exploratory visualizations
+- Demand forecasting and forecast evaluation
+
+Main script:
 
 ```bash
 python src/audit_data.py
 ```
 
-اجرای نوت‌بوک:
+The Phase 1 notebook and report provide additional analysis and interpretation.
 
-```bash
-jupyter lab
-```
+## Phase 2 — Advanced Analysis
 
-سپس نوت‌بوک تحلیل داده را از پوشه `notebooks/` باز کنید.
+Phase 2 extends the initial analysis with feature engineering, clustering, and anomaly detection.
 
-گزارش فاز اول:
+### 1. Feature Engineering
 
-`outputs/reports/phase_1_report.md`
-
-## ۴. فاز دوم: مهندسی ویژگی‌ها
-
-در این مرحله، ویژگی‌های جدید از داده خام استخراج شده‌اند تا برای مدل‌سازی و تحلیل‌های پیشرفته آماده شوند.
-
-اجرای اسکریپت:
+Script:
 
 ```bash
 python src/phase2/feature_engineering.py
 ```
 
-مهم‌ترین ویژگی‌های ایجادشده عبارت‌اند از:
+The feature engineering pipeline creates additional variables, including:
 
-- مدت زمان سفر بر حسب دقیقه
-- ساعت، روز، روز هفته و ماه سفر
-- تشخیص روزهای آخر هفته
-- ویژگی‌های چرخه‌ای ساعت و روز هفته با توابع سینوس و کسینوس
-- پرچم‌های کنترل کیفیت برای مقادیر نامعتبر یا غیرعادی
-- شناسایی الگوهای مقادیر گمشده
+- Trip duration
+- Pickup hour, day, weekday, and month
+- Weekend indicator
+- Cyclical hour and weekday features
+- Data-quality indicators
+- Missingness profile
+- `payment_type_zero` indicator
 
-خروجی اصلی:
+The `missing_profile` feature identifies records where the selected fields are all missing. The `payment_type_zero` feature identifies records with `payment_type == 0`.
 
-`outputs/phase2/yellow_taxi_phase2_features.parquet`
+The two indicators were checked against each other in the generated dataset: both identify 945,748 records, with zero mismatches.
 
-## ۵. خوشه‌بندی سفرها (Clustering)
+Missing values are not automatically treated as errors or indiscriminately imputed. Their handling depends on the analytical purpose.
 
-در این مرحله، سفرها با استفاده از الگوریتم K-Means گروه‌بندی شده‌اند.
+### 2. Trip Clustering
 
-روش اجرا:
+Script:
 
 ```bash
 python src/phase2/clustering.py
 ```
 
-مراحل اصلی:
+The clustering workflow includes:
 
-- انتخاب رکوردهای واجد شرایط
-- تبدیل لگاریتمی برخی ویژگی‌های عددی
-- استانداردسازی ویژگی‌ها
-- کاهش ابعاد با PCA
-- ارزیابی تعداد خوشه‌ها با معیارهای Silhouette، Davies-Bouldin و Calinski-Harabasz
-- تحلیل ویژگی‌های هر خوشه
-- بررسی مناطق مبدا، مقصد و مسیرهای پرتکرار
-- بررسی پایداری نتایج با نمونه‌گیری‌های مختلف
+- Eligibility filtering
+- Feature preprocessing and scaling
+- Principal Component Analysis (PCA)
+- KMeans clustering
+- Model evaluation using Silhouette Score, Davies–Bouldin Index, and Calinski–Harabasz Index
+- Cluster profiling
+- Pickup and drop-off zone analysis
+- Route analysis
+- Clustering stability analysis
 
-در اجرای انجام‌شده، تعداد دو خوشه انتخاب شده است. این خوشه‌ها به‌طور کلی سفرهای کوتاه‌تر و سفرهای طولانی‌تر را از هم متمایز می‌کنند. مقدار Silhouette نشان می‌دهد جدایی خوشه‌ها متوسط تا محدود است و نباید آن‌ها را گروه‌های کاملاً مجزا در نظر گرفت.
+PCA retained 6 components to explain approximately 95.79% of the variance.
 
-## ۶. تشخیص ناهنجاری‌ها (Anomaly Detection)
+The selected KMeans solution uses 2 clusters, with a Silhouette Score of approximately 0.250. This indicates limited or moderate cluster separation rather than perfectly distinct groups.
 
-برای شناسایی سفرهای دارای الگوهای غیرمعمول، از الگوریتم Isolation Forest استفاده شده است.
+The two clusters show different trip patterns:
 
-روش اجرا:
+- **Cluster 0:** Longer trips, greater average distance, and higher average fare and total amount.
+- **Cluster 1:** Shorter trips, lower average distance, and lower average fare and total amount.
+
+The 2D PCA visualization displays the first two principal components, which together explain approximately 53.9% of the variance.
+
+Clustering stability was also evaluated across multiple random seeds. Adjusted Rand Index values on the common comparison subsets were approximately 0.98.
+
+### 3. Anomaly Detection
+
+Script:
 
 ```bash
 python src/phase2/anomaly_detection.py
 ```
 
-مراحل اصلی:
+An Isolation Forest model is used to identify statistically unusual trips.
 
-- انتخاب سفرهای واجد شرایط
-- نمونه‌گیری تصادفی از ۱۵۰ هزار سفر
-- استفاده از ویژگی‌های مدت زمان، مسافت، کرایه، مبلغ کل و انعام
-- اجرای Isolation Forest با contamination برابر ۰٫۰۲
-- مقایسه سفرهای عادی و ناهنجار
-- بررسی مناطق مبدا و مقصد سفرهای ناهنجار
-- بررسی ارتباط سفرهای ناهنجار با فرودگاه‌های JFK و LaGuardia
+The analysis uses a sample of 150,000 observations and the following features:
 
-در اجرای انجام‌شده، ۳۰۰۰ سفر از نمونه ۱۵۰ هزار رکوردی به‌عنوان ناهنجار شناسایی شده‌اند.
+- Trip duration
+- Trip distance
+- Fare amount
+- Total amount
+- Tip amount
 
-نکته: ناهنجار بودن یک سفر به معنی تقلب یا خطای قطعی نیست؛ این الگوریتم صرفاً الگوهای آماری غیرمعمول را شناسایی می‌کند.
+The configured contamination rate is 0.02.
 
-## ۷. خروجی‌ها
+Results:
 
-### گزارش‌ها
+- Sample size: 150,000 trips
+- Normal observations: 147,000
+- Anomalies: 3,000
+- Anomaly share: 2%
 
-- `outputs/reports/phase_1_report.md`
-- `outputs/reports/phase_2_report.md`
+The analysis also examines anomaly profiles and geographic patterns, including airport-related pickup and drop-off zones.
 
-### خروجی‌های فاز دوم
+**Important:** An anomaly is a statistically unusual observation, not necessarily a fraudulent, incorrect, or invalid trip. Airport trips and other legitimate travel patterns may naturally have unusual distances, durations, or fares.
 
-پوشه `outputs/phase2/` شامل جداول و داده‌های خروجی مهندسی ویژگی، خوشه‌بندی، تحلیل پایداری و تشخیص ناهنجاری است.
+## Outputs
 
-از جمله:
+Generated outputs are organized into the following directories:
 
-- `yellow_taxi_phase2_features.parquet`
-- `clustering_model_selection.csv`
-- `cluster_profile_summary.csv`
-- `cluster_pickup_zone_summary.csv`
-- `cluster_dropoff_zone_summary.csv`
-- `cluster_route_summary.csv`
-- `clustering_stability_summary.csv`
-- `clustering_ari_stability.csv`
-- `anomaly_profile_summary.csv`
-- `anomaly_pickup_zone_summary.csv`
-- `anomaly_dropoff_zone_summary.csv`
-- `anomaly_airport_summary.csv`
-- `top_1000_anomalies.csv`
+- `outputs/figures/` — Phase 1 and Phase 2 visualizations
+- `outputs/tables/` — analytical tables and summaries
+- `outputs/reports/` — project reports
+- `outputs/phase2/` — Phase 2 feature data, clustering results, anomaly summaries, and related outputs
 
-### نمودارها
+The Phase 2 report is available at:
 
-نمودارهای فاز اول و دوم در مسیر زیر ذخیره می‌شوند:
-
-`outputs/figures/`
-
-این نمودارها شامل توزیع ویژگی‌ها، تقاضای زمانی، تحلیل جغرافیایی، نتایج خوشه‌بندی و تحلیل ناهنجاری‌ها هستند.
-
-## ۸. محدودیت‌ها
-
-- داده مورد استفاده مربوط به یک ماه است و نتایج لزوماً به ماه‌های دیگر قابل تعمیم نیستند.
-- بخشی از تحلیل‌های فاز دوم بر اساس نمونه تصادفی ۱۵۰ هزار رکوردی انجام شده‌اند؛ بنابراین نتایج نمونه‌گیری باید با این محدودیت تفسیر شوند.
-- مقدار Silhouette در خوشه‌بندی نشان‌دهنده جدایی محدود خوشه‌ها است.
-- بررسی پایداری خوشه‌بندی بر اساس رکوردهای مشترک نمونه‌ها انجام شده و به‌تنهایی تضمین‌کننده پایداری در کل جمعیت داده نیست.
-- مقدار contamination در Isolation Forest از پیش روی ۰٫۰۲ تنظیم شده است؛ بنابراین درصد ناهنجاری‌های شناسایی‌شده به این تنظیم وابسته است.
-- ناهنجاری آماری الزاماً به معنی خطای ثبت داده یا رفتار غیرعادی واقعی نیست.
-- مقادیر غیرعادی بدون قاعده مستند و قابل دفاع حذف نمی‌شوند.
-
-## ۹. Git و نسخه‌بندی
-
-پس از بررسی فایل‌ها و خروجی‌ها، تغییرات را بررسی کنید:
-
-```bash
-git status
+```text
+outputs/reports/phase_2_report.md
 ```
 
-برای ثبت تغییرات فاز دوم، پس از اطمینان از وجود مخزن Git:
+Important Phase 2 visualizations include:
 
-```bash
-git add README.md PROJECT_CARD.md AI_USAGE_FA.md requirements.txt src/phase2 outputs/reports/phase_2_report.md outputs/phase2 outputs/figures
-```
+- `phase2_cluster_sizes.png`
+- `phase2_pca_variance.png`
+- `phase2_pca_clusters_2d.png`
+- `phase2_anomaly_duration_distance.png`
+- `phase2_anomaly_score_distribution.png`
+- `phase2_anomaly_top_pickup_zones.png`
+- `phase2_anomaly_top_dropoff_zones.png`
 
-سپس:
+## Reproducibility
 
-```bash
-git commit -m "Complete phase 2 feature engineering clustering and anomaly detection"
-```
-
-برای ساخت تگ فاز دوم، ابتدا تگ‌های موجود را بررسی کنید:
-
-```bash
-git tag --list
-```
-
-اگر تگ `phase-2` از قبل وجود ندارد:
-
-```bash
-git tag -a phase-2 -m "NYC TLC Phase 2 deliverables"
-```
-
-بررسی تگ:
-
-```bash
-git show phase-2 --stat
-```
-
-اگر پوشه `.git` در پروژه وجود نداشته باشد، ابتدا باید پروژه به‌صورت یک مخزن Git دریافت یا راه‌اندازی شود.
-## Project Deliverables
-
-This project is organized into two main phases.
-
-### Phase 1 – Exploratory Data Analysis and Forecasting
-
-**Report:**
-- [Phase 1 Report (Markdown)](outputs/reports/phase_1_report.md)
-- [Phase 1 Report (PDF)](outputs/reports/phase_1_report.pdf)
-
-**Visualizations:**
-
-The Phase 1 figures are available in `outputs/figures/`, including:
-- Daily and hourly demand analysis
-- Weekday and hourly demand patterns
-- Passenger count distribution
-- Numerical feature distributions
-- Correlation heatmaps
-- Pickup demand maps
-- Origin-destination analysis
-- Forecast comparison and forecast errors
-
-### Phase 2 – Feature Engineering, Clustering and Anomaly Detection
-
-**Report:**
-- [Phase 2 Report (Markdown)](outputs/reports/phase_2_report.md)
-
-**Source code:**
-- `src/phase2/feature_engineering.py`
-- `src/phase2/clustering.py`
-- `src/phase2/anomaly_detection.py`
-
-**Visualizations:**
-
-Available in `outputs/figures/`:
-- PCA explained variance
-- Cluster sizes
-- Cluster-specific pickup and dropoff zones
-- Cluster-specific popular routes
-- Anomaly score distribution
-- Anomaly duration and distance analysis
-- Geographic distribution of anomalies
-
-**Analysis tables:**
-
-Available in `outputs/phase2/`:
-- Cluster profiles and model selection metrics
-- Clustering stability and ARI results
-- Pickup and dropoff zone summaries
-- Popular origin-destination routes
-- Anomaly profiles and geographic summaries
-- Top 1,000 anomalous trips
-
-### Reproducibility and Data Availability
-
-Generated CSV summaries and PNG figures are included in this repository.
-
-Large intermediate Parquet files and raw datasets are excluded from Git tracking to keep the repository manageable. They are generated or obtained locally as described in the project documentation.
-
-To reproduce the Phase 2 analysis, install the dependencies listed in `requirements.txt` and run the scripts from the project root directory.
-
-### Versioned Releases
-
-- Phase 1: `phase-1`
-- Phase 2: `phase-2`
-
-## Installation and Reproducibility Guide
-
-### 1. Requirements
-
-- Python 3.11 or later
-- Git
-- Internet connection for downloading the datasets
-
-The project was tested with Python 3.13.
-
-### 2. Clone the Repository
-
-```bash
-git clone https://github.com/sbkalantari/NYC-TLC-Yellow-Taxi.git
-cd NYC-TLC-Yellow-Taxi
-```
-
-### 3. Create and Activate a Virtual Environment
-
-On Windows:
-
-```cmd
-python -m venv .venv
-.venv\Scripts\activate
-```
-
-On macOS or Linux:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
-
-### 4. Install Dependencies
-
-```bash
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-### 5. Download the Required Datasets
-
-The datasets are not included in this repository because of their size.
-
-**Yellow Taxi Trip Records**
-
-1. Visit the official [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) page.
-2. Find the year 2026 and March.
-3. Download the Yellow Taxi Trip Records file in Parquet format.
-4. Save it as:
-
-`data/raw/yellow_tripdata_2026-03.parquet`
-
-**Taxi Zone Geographic Data**
-
-Download the official [Taxi Zone Shapefile](https://s3.amazonaws.com/nyc-tlc/misc/taxi_zones.zip) and extract its contents into:
-
-`data/external/`
-
-The folder should contain the shapefile components, including `.shp`, `.shx`, `.dbf`, and `.prj`.
-
-Download the [Taxi Zone Lookup Table](https://s3.amazonaws.com/nyc-tlc/misc/taxi+_zone_lookup.csv) and save it as:
-
-`data/external/taxi_zone_lookup.csv`
-
-### 6. Run Phase 1
-
-From the project root directory:
-
-```bash
-python src/audit_data.py
-```
-
-Open the Jupyter Notebook:
-
-```bash
-jupyter lab
-```
-
-Then open the notebook in the `notebooks/` directory.
-
-### 7. Run Phase 2
-
-Run the scripts in the following order from the project root directory:
-
-**Step 1 – Feature Engineering**
+Run the Phase 2 scripts in this order:
 
 ```bash
 python src/phase2/feature_engineering.py
-```
-
-**Step 2 – Clustering**
-
-```bash
 python src/phase2/clustering.py
-```
-
-**Step 3 – Anomaly Detection**
-
-```bash
 python src/phase2/anomaly_detection.py
 ```
 
-The Phase 2 scripts use intermediate outputs generated by the preceding steps.
+The feature engineering script must be executed before clustering and anomaly detection.
 
-### 8. Generated Outputs
+Make sure the required TLC data files and external geographic reference files are available in the expected directories before running the analysis.
 
-- Figures are saved in `outputs/figures/`.
-- Reports are saved in `outputs/reports/`.
-- Phase 2 analysis tables and intermediate files are saved in `outputs/phase2/`.
+## Limitations
 
-Large raw datasets and intermediate Parquet files are excluded from Git tracking. They must be downloaded or generated locally before running the complete analysis.
+- The analysis covers March 2026 only.
+- Results depend on the quality and completeness of the source data.
+- Clustering results depend on feature selection, preprocessing, and sampling.
+- A Silhouette Score of approximately 0.25 indicates limited separation between clusters.
+- Anomaly detection identifies unusual patterns, not confirmed fraud or data errors.
+- Geographic patterns should be interpreted in the context of NYC taxi demand and airport travel.
+
+## GitHub Releases
+
+The repository includes separate project milestones:
+
+- `phase-1` — initial data audit and exploratory analysis
+- `phase-2` — advanced analysis, clustering, and anomaly detection
+
+The project documentation includes the project card and AI usage statement.
+
+## License and Data Attribution
+
+The source data is provided by the NYC Taxi & Limousine Commission (TLC). Users should follow the applicable TLC data-use terms and attribution requirements.
