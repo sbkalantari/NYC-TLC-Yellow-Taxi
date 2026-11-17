@@ -249,3 +249,68 @@ git show phase-2 --stat
 ```
 
 اگر پوشه `.git` در پروژه وجود نداشته باشد، ابتدا باید پروژه به‌صورت یک مخزن Git دریافت یا راه‌اندازی شود.
+## Project Deliverables
+
+This project is organized into two main phases.
+
+### Phase 1 – Exploratory Data Analysis and Forecasting
+
+**Report:**
+- [Phase 1 Report (Markdown)](outputs/reports/phase_1_report.md)
+- [Phase 1 Report (PDF)](outputs/reports/phase_1_report.pdf)
+
+**Visualizations:**
+
+The Phase 1 figures are available in `outputs/figures/`, including:
+- Daily and hourly demand analysis
+- Weekday and hourly demand patterns
+- Passenger count distribution
+- Numerical feature distributions
+- Correlation heatmaps
+- Pickup demand maps
+- Origin-destination analysis
+- Forecast comparison and forecast errors
+
+### Phase 2 – Feature Engineering, Clustering and Anomaly Detection
+
+**Report:**
+- [Phase 2 Report (Markdown)](outputs/reports/phase_2_report.md)
+
+**Source code:**
+- `src/phase2/feature_engineering.py`
+- `src/phase2/clustering.py`
+- `src/phase2/anomaly_detection.py`
+
+**Visualizations:**
+
+Available in `outputs/figures/`:
+- PCA explained variance
+- Cluster sizes
+- Cluster-specific pickup and dropoff zones
+- Cluster-specific popular routes
+- Anomaly score distribution
+- Anomaly duration and distance analysis
+- Geographic distribution of anomalies
+
+**Analysis tables:**
+
+Available in `outputs/phase2/`:
+- Cluster profiles and model selection metrics
+- Clustering stability and ARI results
+- Pickup and dropoff zone summaries
+- Popular origin-destination routes
+- Anomaly profiles and geographic summaries
+- Top 1,000 anomalous trips
+
+### Reproducibility and Data Availability
+
+Generated CSV summaries and PNG figures are included in this repository.
+
+Large intermediate Parquet files and raw datasets are excluded from Git tracking to keep the repository manageable. They are generated or obtained locally as described in the project documentation.
+
+To reproduce the Phase 2 analysis, install the dependencies listed in `requirements.txt` and run the scripts from the project root directory.
+
+### Versioned Releases
+
+- Phase 1: `phase-1`
+- Phase 2: `phase-2`
