@@ -108,7 +108,35 @@ df["missing_profile"] = (
     .all(axis=1)
     .astype("int8")
 )
+# Validate and export missingness information
+missingness_validation = df[missing_columns].isna().sum().reset_index()
+missingness_validation.columns = ["column", "missing_count"]
 
+missingness_validation["non_missing_count"] = (
+    len(df) - missingness_validation["missing_count"]
+)
+
+missingness_validation["missing_percentage"] = (
+    missingness_validation["missing_count"] / len(df) * 100
+).round(4)
+
+expected_missing_profile = (
+    df[missing_columns].isna().all(axis=1).astype("int8")
+)
+
+validation_passed = df["missing_profile"].equals(expected_missing_profile)
+
+missingness_validation["total_rows"] = len(df)
+missingness_validation["missing_profile_rows"] = int(
+    df["missing_profile"].sum()
+)
+missingness_validation["missing_profile_validation_passed"] = validation_passed
+
+missingness_validation.to_csv(
+    OUTPUT_DIR / "missingness_validation.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
 # Keep an explicit indicator for the associated payment type.
 df["payment_type_zero"] = (
     df["payment_type"] == 0

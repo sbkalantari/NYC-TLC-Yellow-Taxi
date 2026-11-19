@@ -8,11 +8,6 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
-# Raw and external datasets
-data/
-
-# Generated outputs
-outputs/
 
 # Operating system
 .DS_Store
