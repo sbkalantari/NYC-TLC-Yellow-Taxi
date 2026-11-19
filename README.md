@@ -1,10 +1,17 @@
-# NYC TLC Yellow Taxi — Phase 1 & Phase 2
+# NYC TLC Yellow Taxi — فاز اول و فاز دوم
 
-تحلیل داده‌های سفر تاکسی زرد نیویورک (NYC TLC Yellow Taxi) برای ماه مارس ۲۰۲۶، شامل بررسی کیفیت داده، تحلیل اکتشافی، مهندسی ویژگی، خوشه‌بندی سفرها و شناسایی سفرهای غیرعادی.
+## معرفی پروژه
 
-This project analyzes NYC TLC Yellow Taxi trip records for March 2026 through data auditing, exploratory analysis, feature engineering, clustering, and anomaly detection.
+این پروژه به تحلیل داده‌های سفر تاکسی‌های زرد شهر نیویورک (NYC TLC Yellow Taxi) در ماه مارس ۲۰۲۶ می‌پردازد. هدف اصلی، بررسی کیفیت داده‌ها، تحلیل الگوهای تقاضای سفر، مهندسی ویژگی‌ها، شناسایی الگوهای رفتاری سفرها از طریق خوشه‌بندی و تشخیص سفرهای غیرعادی است.
 
-## Project Structure
+پروژه در دو فاز اصلی سازمان‌دهی شده است:
+
+- **فاز اول:** ممیزی داده‌ها، تحلیل اکتشافی و پیش‌بینی تقاضا
+- **فاز دوم:** مهندسی ویژگی‌ها، خوشه‌بندی پایه، خوشه‌بندی مکانی و تشخیص ناهنجاری
+
+---
+
+## ساختار پروژه
 
 ```text
 NYC-TLC-Yellow-Taxi/
@@ -25,6 +32,7 @@ NYC-TLC-Yellow-Taxi/
 │   └── phase2/
 │       ├── feature_engineering.py
 │       ├── clustering.py
+│       ├── clustering_spatial.py
 │       └── anomaly_detection.py
 │
 └── outputs/
@@ -34,210 +42,404 @@ NYC-TLC-Yellow-Taxi/
     └── phase2/
 ```
 
-## Dataset
+---
 
-- **Source:** NYC Taxi & Limousine Commission (TLC)
-- **Dataset:** Yellow Taxi Trip Records
-- **Period:** March 2026
-- **External data:** Taxi zone shapefile and taxi zone lookup table
+## داده‌های مورد استفاده
 
-The raw and external datasets are not included in the Git repository.
+- **منبع:** NYC Taxi & Limousine Commission (TLC)
+- **مجموعه‌داده:** Yellow Taxi Trip Records
+- **بازه زمانی:** مارس ۲۰۲۶
+- **داده‌های جغرافیایی تکمیلی:** Taxi Zone Shapefile و Taxi Zone Lookup Table
 
-## Environment Setup
+داده‌های خام و فایل‌های جغرافیایی مورد استفاده در این پروژه در پوشه‌ی `data/` قرار دارند. فایل Parquet مربوط به سفرهای Yellow Taxi در پوشه‌ی `data/raw/` و فایل‌های Taxi Zone Shapefile و Taxi Zone Lookup Table در پوشه‌ی `data/external/` ذخیره شده‌اند. این فایل‌ها در نسخه‌ی فعلی مخزن Git نیز ثبت شده‌اند؛ بنابراین برای استفاده از پروژه، پس از دریافت کامل مخزن، نیازی به دانلود جداگانه‌ی این داده‌ها نیست.
+---
 
-Recommended Python version: Python 3.11 or newer.
+## راه‌اندازی محیط اجرا
 
-Create and activate a virtual environment:
+نسخه پیشنهادی Python، نسخه 3.11 یا جدیدتر است.
+
+### ایجاد محیط مجازی
 
 ```bash
 python -m venv .venv
 ```
 
-Windows:
+### فعال‌سازی در Windows
 
-```bash
+```cmd
 .venv\Scripts\activate
 ```
 
-Install dependencies:
+### فعال‌سازی در macOS و Linux
 
 ```bash
-pip install -r requirements.txt
+source .venv/bin/activate
 ```
 
-## Phase 1 — Data Audit and Exploratory Analysis
+### نصب وابستگی‌ها
 
-Phase 1 focuses on understanding the dataset and assessing its quality.
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
 
-Main activities:
+---
 
-- Data loading and initial inspection
-- Schema and data type checks
-- Missing-value analysis
-- Duplicate and invalid-record checks
-- Descriptive statistics
-- Temporal demand analysis
-- Geographic and route analysis
-- Exploratory visualizations
-- Demand forecasting and forecast evaluation
+# فاز اول — ممیزی داده‌ها و تحلیل اکتشافی
 
-Main script:
+هدف فاز اول، شناخت ساختار داده‌ها و ارزیابی کیفیت آن‌ها پیش از انجام تحلیل‌های پیشرفته است.
+
+فعالیت‌های اصلی این فاز عبارت‌اند از:
+
+- بارگذاری و بررسی اولیه داده‌ها
+- بررسی ساختار ستون‌ها و نوع داده‌ها
+- تحلیل مقادیر گمشده
+- بررسی رکوردهای تکراری و نامعتبر
+- محاسبه آمار توصیفی
+- تحلیل زمانی تقاضای سفر
+- تحلیل جغرافیایی و مسیرهای سفر
+- تولید نمودارهای اکتشافی
+- پیش‌بینی تقاضا و ارزیابی عملکرد مدل‌های پیش‌بینی
+
+### اسکریپت اصلی
 
 ```bash
 python src/audit_data.py
 ```
 
-The Phase 1 notebook and report provide additional analysis and interpretation.
+دفترچه Jupyter و گزارش فاز اول شامل تحلیل‌ها و تفسیرهای تکمیلی هستند.
 
-## Phase 2 — Advanced Analysis
+---
 
-Phase 2 extends the initial analysis with feature engineering, clustering, and anomaly detection.
+# فاز دوم — تحلیل پیشرفته
 
-### 1. Feature Engineering
+فاز دوم با هدف استخراج ویژگی‌های تحلیلی، شناسایی گروه‌های رفتاری سفرها و تشخیص الگوهای غیرعادی طراحی شده است.
 
-Script:
+این فاز شامل چهار مرحله مستقل و متوالی است:
+
+1. Feature Engineering
+2. Base Clustering
+3. Spatial Clustering
+4. Anomaly Detection
+
+## مرحله اول: Feature Engineering
+
+در این مرحله، داده‌های اولیه پردازش شده و ویژگی‌های مورد نیاز برای مدل‌های بعدی ایجاد می‌شوند.
+
+اسکریپت اجرا:
 
 ```bash
 python src/phase2/feature_engineering.py
 ```
 
-The feature engineering pipeline creates additional variables, including:
+ویژگی‌ها و شاخص‌های ایجادشده شامل موارد زیر هستند:
 
-- Trip duration
-- Pickup hour, day, weekday, and month
-- Weekend indicator
-- Cyclical hour and weekday features
-- Data-quality indicators
-- Missingness profile
-- `payment_type_zero` indicator
+- مدت سفر (Trip Duration)
+- ساعت، روز، روز هفته و ماه شروع سفر
+- شاخص آخر هفته (Weekend Indicator)
+- ویژگی‌های چرخه‌ای ساعت و روز هفته
+- شاخص‌های کیفیت داده
+- Missingness Profile
+- شاخص `payment_type_zero`
 
-The `missing_profile` feature identifies records where the selected fields are all missing. The `payment_type_zero` feature identifies records with `payment_type == 0`.
+ویژگی `missing_profile` رکوردهایی را مشخص می‌کند که در فیلدهای انتخاب‌شده دارای الگوی مشخصی از مقادیر گمشده هستند.
 
-The two indicators were checked against each other in the generated dataset: both identify 945,748 records, with zero mismatches.
+ویژگی `payment_type_zero` نیز رکوردهایی را مشخص می‌کند که مقدار `payment_type` آن‌ها برابر صفر است.
 
-Missing values are not automatically treated as errors or indiscriminately imputed. Their handling depends on the analytical purpose.
+این دو شاخص در داده‌های تولیدشده با یکدیگر اعتبارسنجی شده‌اند:
 
-### 2. Trip Clustering
+- تعداد رکوردهای دارای Missingness Profile: 945,748
+- تعداد رکوردهای دارای `payment_type = 0`: 945,748
+- تعداد موارد عدم تطابق: صفر
 
-Script:
+مقادیر گمشده به‌صورت خودکار خطا در نظر گرفته نمی‌شوند و بدون توجه به هدف تحلیل، به‌طور یکسان جایگزین نمی‌شوند. نحوه برخورد با آن‌ها به کاربرد تحلیلی هر ویژگی بستگی دارد.
+
+خروجی اصلی این مرحله:
+
+```text
+outputs/phase2/yellow_taxi_phase2_features.parquet
+```
+
+## مرحله دوم: Base Clustering
+
+در این مرحله، مدل پایه خوشه‌بندی با استفاده از ویژگی‌های رفتاری و عددی سفرها اجرا می‌شود.
+
+هدف، شناسایی گروه‌های اصلی سفرها بر اساس ویژگی‌هایی مانند مدت سفر، مسافت و هزینه است.
+
+اسکریپت اجرا:
 
 ```bash
 python src/phase2/clustering.py
 ```
 
-The clustering workflow includes:
+مراحل اصلی مدل عبارت‌اند از:
 
-- Eligibility filtering
-- Feature preprocessing and scaling
-- Principal Component Analysis (PCA)
-- KMeans clustering
-- Model evaluation using Silhouette Score, Davies–Bouldin Index, and Calinski–Harabasz Index
-- Cluster profiling
-- Pickup and drop-off zone analysis
-- Route analysis
-- Clustering stability analysis
+- فیلتر کردن رکوردهای واجد شرایط
+- آماده‌سازی و مقیاس‌بندی ویژگی‌ها
+- کاهش ابعاد با Principal Component Analysis (PCA)
+- اجرای الگوریتم KMeans
+- ارزیابی مدل با Silhouette Score، Davies–Bouldin Index و Calinski–Harabasz Index
+- تحلیل ویژگی‌های هر خوشه
+- بررسی مناطق مبدأ و مقصد
+- تحلیل مسیرهای پرتکرار
+- ارزیابی پایداری خوشه‌بندی
 
-PCA retained 6 components to explain approximately 95.79% of the variance.
+در مدل پایه، ۶ مؤلفه PCA حدود 95.79 درصد از واریانس داده‌ها را توضیح می‌دهند.
 
-The selected KMeans solution uses 2 clusters, with a Silhouette Score of approximately 0.250. This indicates limited or moderate cluster separation rather than perfectly distinct groups.
+راه‌حل منتخب شامل دو خوشه است و Silhouette Score آن تقریباً 0.250 است. این مقدار نشان‌دهنده جدایی محدود خوشه‌هاست و نباید به‌عنوان تفکیک کاملاً واضح گروه‌ها تفسیر شود.
 
-The two clusters show different trip patterns:
+### تفسیر خوشه‌های مدل پایه
 
-- **Cluster 0:** Longer trips, greater average distance, and higher average fare and total amount.
-- **Cluster 1:** Shorter trips, lower average distance, and lower average fare and total amount.
+**Cluster 0**
 
-The 2D PCA visualization displays the first two principal components, which together explain approximately 53.9% of the variance.
+این خوشه شامل سفرهای کوتاه‌تر و کم‌هزینه‌تر است. میانگین مدت سفر، مسافت، کرایه و مبلغ کل در این گروه پایین‌تر است.
 
-Clustering stability was also evaluated across multiple random seeds. Adjusted Rand Index values on the common comparison subsets were approximately 0.98.
+**Cluster 1**
 
-### 3. Anomaly Detection
+این خوشه شامل سفرهای طولانی‌تر و پرهزینه‌تر است. میانگین مدت سفر، مسافت، کرایه و مبلغ کل در این گروه بیشتر است.
 
-Script:
+بنابراین، در مدل پایه، Cluster 0 نمایانگر سفرهای کوتاه‌تر و Cluster 1 نمایانگر سفرهای طولانی‌تر است.
+
+## مرحله سوم: Spatial Clustering
+
+در این مرحله، مدل خوشه‌بندی توسعه‌یافته مکانی به‌صورت مستقل از مدل پایه اجرا می‌شود.
+
+هدف این مدل، بررسی نقش اطلاعات جغرافیایی در شناسایی الگوهای سفر و ارزیابی تفاوت نتایج مدل مکانی با مدل پایه است.
+
+اسکریپت اجرا:
+
+```bash
+python src/phase2/clustering_spatial.py
+```
+
+در این مدل، اطلاعات مکانی مربوط به مناطق مبدأ و مقصد سفر به مجموعه ویژگی‌ها اضافه می‌شوند. اطلاعات مربوط به Borough مناطق مبدأ و مقصد با استفاده از Taxi Zone Lookup Table استخراج شده و به کمک One-Hot Encoding به ویژگی‌های عددی تبدیل می‌شوند.
+
+مراحل اصلی مدل عبارت‌اند از:
+
+- بارگذاری داده‌های مهندسی ویژگی‌شده
+- اتصال اطلاعات جغرافیایی به مناطق مبدأ و مقصد
+- ایجاد ویژگی‌های مکانی
+- آماده‌سازی و مقیاس‌بندی ویژگی‌ها
+- کاهش ابعاد با PCA
+- اجرای KMeans
+- ارزیابی مدل با شاخص‌های خوشه‌بندی
+- تحلیل ویژگی‌های هر خوشه
+- تحلیل مناطق مبدأ و مقصد و مسیرهای پرتکرار
+- بررسی پایداری خوشه‌بندی
+
+در مدل مکانی، ۲۳ ویژگی شامل ۱۴ ویژگی مکانی مورد استفاده قرار گرفته‌اند. تعداد ۱۷ مؤلفه PCA حدود 96.18 درصد از واریانس داده‌ها را توضیح می‌دهند.
+
+راه‌حل منتخب شامل دو خوشه است و Silhouette Score آن تقریباً 0.260 است.
+
+### تفسیر خوشه‌های مدل مکانی
+
+**Cluster 0**
+
+این خوشه شامل سفرهای کوتاه‌تر و کم‌هزینه‌تر است. میانگین مدت سفر، مسافت، کرایه و مبلغ کل در این گروه پایین‌تر است.
+
+**Cluster 1**
+
+این خوشه شامل سفرهای طولانی‌تر و پرهزینه‌تر است. میانگین مدت سفر، مسافت، کرایه و مبلغ کل در این گروه بیشتر است.
+
+بنابراین، در مدل مکانی، Cluster 0 نمایانگر سفرهای کوتاه‌تر و Cluster 1 نمایانگر سفرهای طولانی‌تر است.
+
+**نکته مهم:** شماره خوشه‌ها در دو مدل پایه و مکانی مستقل از یکدیگر هستند. بنابراین، تفسیر Cluster 0 و Cluster 1 باید با استفاده از جدول آماری همان مدل انجام شود. صرفاً یکسان بودن شماره خوشه به معنای یکسان بودن الگوی رفتاری آن نیست.
+
+خروجی‌های مدل مکانی در مسیرهای زیر ذخیره می‌شوند:
+
+```text
+outputs/phase2/spatial_clustering/
+outputs/figures/spatial_clustering/
+```
+
+## مرحله چهارم: Anomaly Detection
+
+در این مرحله، از الگوریتم Isolation Forest برای شناسایی سفرهایی استفاده می‌شود که از نظر آماری با الگوهای معمول تفاوت دارند.
+
+اسکریپت اجرا:
 
 ```bash
 python src/phase2/anomaly_detection.py
 ```
 
-An Isolation Forest model is used to identify statistically unusual trips.
+مدل با استفاده از نمونه‌ای شامل ۱۵۰ هزار مشاهده اجرا شده است.
 
-The analysis uses a sample of 150,000 observations and the following features:
+هشت ویژگی مورد استفاده در مدل عبارت‌اند از:
 
-- Trip duration
-- Trip distance
-- Fare amount
-- Total amount
-- Tip amount
+1. Log Duration
+2. Log Distance
+3. Log Fare
+4. Log Total Amount
+5. Log Tip Amount
+6. Log Average Speed
+7. Pickup Hour Sin
+8. Pickup Hour Cos
 
-The configured contamination rate is 0.02.
+پارامترهای اصلی مدل:
 
-Results:
+- تعداد نمونه: 150,000
+- تعداد درخت‌ها: 200
+- Contamination: 0.02
+- Random State: 42
 
-- Sample size: 150,000 trips
-- Normal observations: 147,000
-- Anomalies: 3,000
-- Anomaly share: 2%
+### نتایج تشخیص ناهنجاری
 
-The analysis also examines anomaly profiles and geographic patterns, including airport-related pickup and drop-off zones.
+- تعداد کل مشاهدات: 150,000
+- مشاهدات عادی: 147,000
+- مشاهدات شناسایی‌شده به‌عنوان ناهنجاری: 3,000
+- سهم ناهنجاری‌ها: 2 درصد
 
-**Important:** An anomaly is a statistically unusual observation, not necessarily a fraudulent, incorrect, or invalid trip. Airport trips and other legitimate travel patterns may naturally have unusual distances, durations, or fares.
+تحلیل تکمیلی شامل بررسی ویژگی‌های سفرهای ناهنجار، توزیع زمانی آن‌ها و الگوهای جغرافیایی مناطق مبدأ و مقصد است. همچنین ارتباط سفرهای ناهنجار با مناطق فرودگاهی بررسی می‌شود.
 
-## Outputs
+**توجه:** شناسایی یک سفر به‌عنوان ناهنجاری آماری، به معنای اثبات تقلب، خطای ثبت یا نامعتبر بودن آن سفر نیست. سفرهای فرودگاهی و سایر الگوهای مشروع سفر نیز ممکن است به دلیل مسافت، مدت یا هزینه متفاوت، به‌عنوان ناهنجاری شناسایی شوند.
 
-Generated outputs are organized into the following directories:
+---
 
-- `outputs/figures/` — Phase 1 and Phase 2 visualizations
-- `outputs/tables/` — analytical tables and summaries
-- `outputs/reports/` — project reports
-- `outputs/phase2/` — Phase 2 feature data, clustering results, anomaly summaries, and related outputs
+## اجرای کامل فاز دوم
 
-The Phase 2 report is available at:
+برای بازتولید نتایج، اسکریپت‌ها باید از مسیر اصلی پروژه و به ترتیب زیر اجرا شوند:
+
+**مرحله اول — مهندسی ویژگی‌ها**
+
+```bash
+python src/phase2/feature_engineering.py
+```
+
+**مرحله دوم — خوشه‌بندی پایه**
+
+```bash
+python src/phase2/clustering.py
+```
+
+**مرحله سوم — خوشه‌بندی مکانی**
+
+```bash
+python src/phase2/clustering_spatial.py
+```
+
+**مرحله چهارم — تشخیص ناهنجاری**
+
+```bash
+python src/phase2/anomaly_detection.py
+```
+
+اجرای مرحله Feature Engineering پیش از مدل‌های خوشه‌بندی و تشخیص ناهنجاری ضروری است؛ زیرا این مدل‌ها از داده‌های تولیدشده در مرحله اول استفاده می‌کنند.
+
+همچنین، برای اجرای مدل مکانی، فایل `taxi_zone_lookup.csv` باید در مسیر زیر موجود باشد:
+
+```text
+data/external/taxi_zone_lookup.csv
+```
+
+---
+
+## خروجی‌های پروژه
+
+خروجی‌های پروژه در پوشه‌های زیر سازمان‌دهی شده‌اند:
+
+- `outputs/figures/` — نمودارهای فاز اول و دوم
+- `outputs/tables/` — جداول آماری و تحلیلی
+- `outputs/reports/` — گزارش‌های پروژه
+- `outputs/phase2/` — داده‌های مهندسی ویژگی، نتایج مدل پایه و خروجی‌های تشخیص ناهنجاری
+- `outputs/phase2/spatial_clustering/` — جداول و داده‌های خروجی مدل مکانی
+- `outputs/figures/spatial_clustering/` — نمودارهای مدل مکانی
+
+### خروجی‌های مهم مدل پایه
+
+- `clustering_model_selection.csv`
+- `cluster_profile_summary.csv`
+- `clustered_trip_sample.parquet`
+- `clustering_stability_summary.csv`
+- `clustering_ari_stability.csv`
+- `cluster_pickup_zone_summary.csv`
+- `cluster_dropoff_zone_summary.csv`
+- `cluster_route_summary.csv`
+
+### خروجی‌های مهم مدل مکانی
+
+در مسیر `outputs/phase2/spatial_clustering/`:
+
+- `clustering_model_selection.csv`
+- `cluster_profile_summary.csv`
+- `clustered_trip_sample.parquet`
+- `clustering_stability_summary.csv`
+- `clustering_ari_stability.csv`
+- `cluster_pickup_zone_summary.csv`
+- `cluster_dropoff_zone_summary.csv`
+- `cluster_route_summary.csv`
+
+### خروجی‌های تشخیص ناهنجاری
+
+- `anomaly_profile_summary.csv`
+- `anomaly_trip_sample.parquet`
+- `top_1000_anomalies.csv`
+- `anomaly_pickup_zone_summary.csv`
+- `anomaly_dropoff_zone_summary.csv`
+- `anomaly_airport_summary.csv`
+- `anomaly_hourly_summary.csv`
+
+### نمودارهای مهم
+
+نمودارهای فاز دوم شامل موارد زیر هستند:
+
+- `phase2_pca_variance.png`
+- `phase2_pca_clusters_2d.png`
+- `phase2_cluster_sizes.png`
+- `phase2_anomaly_score_distribution.png`
+- `phase2_anomaly_duration_distance.png`
+- `phase2_anomaly_top_pickup_zones.png`
+- `phase2_anomaly_top_dropoff_zones.png`
+- `phase2_anomaly_rate_by_hour.png`
+
+نمودارهای مدل مکانی در پوشه `outputs/figures/spatial_clustering/` ذخیره می‌شوند.
+
+### گزارش فاز دوم
+
+گزارش تحلیلی فاز دوم در مسیر زیر قرار دارد:
 
 ```text
 outputs/reports/phase_2_report.md
 ```
 
-Important Phase 2 visualizations include:
+نسخه PDF گزارش نیز در همین پوشه قرار می‌گیرد.
 
-- `phase2_cluster_sizes.png`
-- `phase2_pca_variance.png`
-- `phase2_pca_clusters_2d.png`
-- `phase2_anomaly_duration_distance.png`
-- `phase2_anomaly_score_distribution.png`
-- `phase2_anomaly_top_pickup_zones.png`
-- `phase2_anomaly_top_dropoff_zones.png`
+---
 
-## Reproducibility
+## قابلیت بازتولید نتایج
 
-Run the Phase 2 scripts in this order:
+برای بازتولید نتایج پروژه:
 
-```bash
-python src/phase2/feature_engineering.py
-python src/phase2/clustering.py
-python src/phase2/anomaly_detection.py
-```
+- وابستگی‌های مورد نیاز از طریق `requirements.txt` نصب شوند.
+- داده‌های خام و فایل‌های جغرافیایی در مسیرهای مورد انتظار قرار گیرند.
+- اسکریپت‌ها از مسیر اصلی پروژه اجرا شوند.
+- ترتیب اجرای چهار مرحله فاز دوم رعایت شود.
+- مقادیر تصادفی تعریف‌شده در اسکریپت‌ها تغییر نکنند، مگر آنکه هدف بررسی پایداری مدل باشد.
+- نتایج مدل پایه و مدل مکانی با جداول خروجی مستقل خودشان تفسیر شوند.
 
-The feature engineering script must be executed before clustering and anomaly detection.
+---
 
-Make sure the required TLC data files and external geographic reference files are available in the expected directories before running the analysis.
+## محدودیت‌های تحلیل
 
-## Limitations
+- تحلیل حاضر تنها داده‌های ماه مارس ۲۰۲۶ را پوشش می‌دهد.
+- نتایج به کیفیت و کامل بودن داده‌های اولیه وابسته هستند.
+- نتایج خوشه‌بندی به انتخاب ویژگی‌ها، روش پیش‌پردازش و نمونه‌گیری وابسته‌اند.
+- Silhouette Score حدود 0.250 در مدل پایه و 0.260 در مدل مکانی نشان‌دهنده جدایی محدود خوشه‌ها است.
+- مدل پایه و مدل مکانی از مجموعه ویژگی‌های متفاوت استفاده می‌کنند و نتایج آن‌ها الزاماً یکسان نیست.
+- نتایج تشخیص ناهنجاری به پارامترهای مدل و مقدار Contamination وابسته‌اند.
+- ناهنجاری آماری به‌تنهایی نشان‌دهنده تقلب یا خطای داده نیست.
+- الگوهای جغرافیایی باید با در نظر گرفتن ساختار تقاضای سفر و سفرهای فرودگاهی نیویورک تفسیر شوند.
 
-- The analysis covers March 2026 only.
-- Results depend on the quality and completeness of the source data.
-- Clustering results depend on feature selection, preprocessing, and sampling.
-- A Silhouette Score of approximately 0.25 indicates limited separation between clusters.
-- Anomaly detection identifies unusual patterns, not confirmed fraud or data errors.
-- Geographic patterns should be interpreted in the context of NYC taxi demand and airport travel.
+---
 
-## GitHub Releases
+## نسخه‌های پروژه در GitHub
 
-The repository includes separate project milestones:
+نقاط عطف پروژه در نسخه‌های جداگانه نگهداری می‌شوند:
 
-- `phase-1` — initial data audit and exploratory analysis
-- `phase-2` — advanced analysis, clustering, and anomaly detection
+- `phase-1` — ممیزی داده‌ها و تحلیل اکتشافی
+- `phase-2` — مهندسی ویژگی، خوشه‌بندی پایه، خوشه‌بندی مکانی و تشخیص ناهنجاری
 
-The project documentation includes the project card and AI usage statement.
+---
 
-## License and Data Attribution
+## مجوز و ارجاع به منبع داده
 
-The source data is provided by the NYC Taxi & Limousine Commission (TLC). Users should follow the applicable TLC data-use terms and attribution requirements.
+داده‌های اولیه توسط NYC Taxi & Limousine Commission (TLC) ارائه شده‌اند. هنگام استفاده یا انتشار مجدد داده‌ها، شرایط استفاده و الزامات ارجاع به منبع رسمی TLC باید رعایت شوند.
